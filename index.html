@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TASK EARN - Biggest Task Earner</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#0a0f0a;color:#fff;min-height:100vh;background-image:linear-gradient(rgba(0,0,0,0.75),rgba(0,0,0,0.75)),url('https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=800');background-size:cover;background-position:center;background-attachment:fixed}
+header{background:#00c853;padding:15px;text-align:center;position:sticky;top:0;z-index:10}
+header h1{font-size:24px;letter-spacing:1px}
+.balance{background:#1b5e20;margin:15px;padding:20px;border-radius:15px;text-align:center;border:2px solid #00e676}
+.balance h2{color:#a5d6a7;font-size:14px}
+.balance h1{font-size:36px;color:#fff;margin:5px 0}
+.btn{background:#00e676;color:#000;padding:12px 20px;border:none;border-radius:10px;font-weight:bold;cursor:pointer;width:100%;margin-top:10px;font-size:16px}
+.card{background:rgba(255,255,255,0.95);color:#000;margin:15px;padding:15px;border-radius:15px}
+.task{display:flex;justify-content:space-between;align-items:center;background:#e8f5e9;padding:12px;border-radius:10px;margin-bottom:10px}
+.task b{color:#1b5e20}
+input,select{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:8px}
+.video-box{margin:15px;border-radius:15px;overflow:hidden}
+video{width:100%;border-radius:15px}
+.admin{background:#ff6f00;color:#fff;padding:8px 15px;border-radius:20px;font-size:13px;font-weight:bold}
+.whatsapp{position:fixed;bottom:20px;right:20px;background:#25D366;color:#fff;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;text-decoration:none;box-shadow:0 4px 15px rgba(0,0,0,0.4);z-index:99}
+.hidden{display:none}
+</style>
+</head>
+<body>
+
+<header>
+<h1>💰 TASK EARN</h1>
+<p>Biggest Task Earner - Earn Daily</p>
+<div id="adminBadge"></div>
+</header>
+
+<div class="balance">
+<h2>YOUR BALANCE</h2>
+<h1>₦<span id="bal">0</span></h1>
+<p id="userEmail">Not logged in</p>
+</div>
+
+<div class="card" id="authBox">
+<h3>Login / Register</h3>
+<input id="email" type="email" placeholder="Email">
+<input id="pass" type="password" placeholder="Password">
+<button class="btn" onclick="login()">LOGIN / REGISTER</button>
+<p style="font-size:12px;margin-top:8px;text-align:center">Admin: allah24434@admin.com / biggesttaskearner</p>
+</div>
+
+<div class="video-box">
+<video controls poster="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800">
+<source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+</video>
+<p style="text-align:center;font-size:13px;margin-top:5px">Watch video to unlock tasks - 30 sec</p>
+</div>
+
+<div class="card">
+<h3>🔥 Available Tasks</h3>
+<div class="task"><div><b>₦600 Task</b><br><small>Follow + Like + Comment</small></div><button class="btn" style="width:auto;padding:8px 15px" onclick="doTask(600)">START</button></div>
+<div class="task"><div><b>₦1000 VIP Task</b><br><small>Watch video + Share to 5 groups</small></div><button class="btn" style="width:auto;padding:8px 15px;background:#ffab00" onclick="doTask(1000)">START</button></div>
+<div class="task"><div><b>₦400 Daily Bonus</b><br><small>Daily check-in</small></div><button class="btn" style="width:auto;padding:8px 15px" onclick="doTask(400)">CLAIM</button></div>
+<p id="taskMsg" style="color:green;font-weight:bold;text-align:center;margin-top:10px"></p>
+</div>
+
+<div class="card">
+<h3>💸 Withdraw - Opay / Bank</h3>
+<p style="font-size:13px">Min withdrawal ₦2000. Paid to Opay <b>07013408152</b> owner account for processing.</p>
+<select id="payMethod">
+<option value="Opay">Opay</option>
+<option value="Bank">Bank Transfer</option>
+</select>
+<input id="accNum" placeholder="Your Opay / Account Number">
+<input id="accName" placeholder="Account Name">
+<input id="amount" type="number" placeholder="Amount e.g 2000">
+<button class="btn" onclick="withdraw()">REQUEST WITHDRAWAL</button>
+<p id="wdMsg" style="margin-top:10px;font-weight:bold"></p>
+<p style="font-size:12px;margin-top:10px">All withdrawals are reviewed by Admin. Chat support if delay.</p>
+</div>
+
+<div class="card hidden" id="adminPanel">
+<h3>👑 ADMIN PANEL</h3>
+<p>Total Users: <span id="totalUsers">1</span></p>
+<p>Total Withdraw Requests: <span id="totalWd">0</span></p>
+<div id="wdList"></div>
+<button class="btn" style="background:#ff3d00;color:#fff" onclick="approveAll()">APPROVE ALL WITHDRAWALS</button>
+</div>
+
+<div class="card" style="text-align:center">
+<h3>Need Help?</h3>
+<p>Chat Admin on WhatsApp</p>
+<a href="https://wa.me/2347013408182?text=Hello%20Task%20Earn%20I%20need%20help" target="_blank" class="btn" style="display:block;text-decoration:none;text-align:center;background:#25D366;color:#fff">CHAT ON WHATSAPP</a>
+<p style="font-size:12px;margin-top:10px">Opay Support: 07013408152<br>© 2026 Task Earn Biggest</p>
+</div>
+
+<a class="whatsapp" href="https://wa.me/2347013408182?text=Hello%20I%20need%20help%20on%20Task%20Earn" target="_blank">💬</a>
+
+<script>
+let bal = parseInt(localStorage.getItem('bal')||'0');
+let user = localStorage.getItem('user')||'';
+let wds = JSON.parse(localStorage.getItem('wds')||'[]');
+document.getElementById('bal').innerText = bal;
+if(user){document.getElementById('userEmail').innerText=user; checkAdmin();}
+function login(){
+let e=document.getElementById('email').value;
+let p=document.getElementById('pass').value;
+if(!e||!p){alert('Enter email & password');return;}
+localStorage.setItem('user',e);document.getElementById('userEmail').innerText=e;
+checkAdmin();alert('Welcome '+e);
+}
+function checkAdmin(){
+let e=document.getElementById('email').value||localStorage.getItem('user');
+if(e==='allah24434@admin.com'){
+document.getElementById('adminBadge').innerHTML='<span class="admin">ADMIN MODE</span>';
+document.getElementById('adminPanel').classList.remove('hidden');
+document.getElementById('totalWd').innerText=wds.length;
+document.getElementById('wdList').innerHTML=wds.map(w=>`<p style="background:#fff3e0;padding:8px;border-radius:8px;margin:5px 0"> ${w.email} - ₦${w.amount} to ${w.acc} (${w.method})</p>`).join('');
+}
+}
+function doTask(amt){
+if(!localStorage.getItem('user')){alert('Login first');return;}
+bal+=amt;localStorage.setItem('bal',bal);document.getElementById('bal').innerText=bal;
+document.getElementById('taskMsg').innerText='✅ You earned ₦'+amt+'! Balance: ₦'+bal;
+}
+function withdraw(){
+let amt=parseInt(document.getElementById('amount').value);
+let acc=document.getElementById('accNum').value;
+let name=document.getElementById('accName').value;
+let method=document.getElementById('payMethod').value;
+if(amt<2000){document.getElementById('wdMsg').innerText='❌ Min is ₦2000';return;}
+if(amt>bal){document.getElementById('wdMsg').innerText='❌ Insufficient balance';return;}
+if(!acc||!name){alert('Enter account details');return;}
+bal-=amt;localStorage.setItem('bal',bal);document.getElementById('bal').innerText=bal;
+wds.push({email:localStorage.getItem('user'),amount:amt,acc:acc+' - '+name,method:method});
+localStorage.setItem('wds',JSON.stringify(wds));
+document.getElementById('wdMsg').innerText='✅ Withdrawal of ₦'+amt+' to '+method+' '+acc+' requested! Admin will pay to Opay 07013408152 within 24hrs. Chat WhatsApp to confirm.';
+}
+function approveAll(){alert('All withdrawals approved!');localStorage.removeItem('wds');location.reload();}
+</script>
+</body>
+  </html>
